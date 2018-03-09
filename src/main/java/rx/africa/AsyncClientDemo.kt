@@ -66,3 +66,28 @@ suspend fun HttpAsyncClient.execute(request: HttpUriRequest): HttpResponse {
         Unit
     }
 }
+fun main(args: Array<String>) {
+    var c:HttpAsyncClient = DefaultHttpAsyncClient()
+
+    
+    val request = HttpGet("http://www.apache.org/")
+    val future = c.execute(request, object : FutureCallback<HttpResponse> {
+
+        override fun completed(response: HttpResponse) {
+            println(request.requestLine.toString() + "->"
+                    + response.statusLine)
+        }
+
+        override fun failed(ex: Exception) {
+            ex.printStackTrace()
+        }
+
+        override fun cancelled() {
+         }
+
+    })
+    val response = future.get()
+    println("Response: " + response.statusLine)
+    println("Response1: " + EntityUtils.toString(response.entity))
+    println("Shutting down")
+}
