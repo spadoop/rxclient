@@ -1,6 +1,9 @@
-package rx.africa
+package org.apache.http.concurrent
 
+import kotlinx.coroutines.experimental.CancellableContinuation
+import kotlinx.coroutines.experimental.cancelFutureOnCompletion
 import kotlinx.coroutines.experimental.future.await
+import kotlinx.coroutines.experimental.suspendCancellableCoroutine
 import org.apache.http.HttpResponse
 import org.apache.http.client.methods.HttpUriRequest
 import org.apache.http.nio.client.HttpAsyncClient
@@ -31,29 +34,35 @@ interface FutureCallback<T> {
     fun failed(ex: Exception)
     fun cancelled()
 }
-//fun HttpAsyncClient.execute(request: HttpUriRequest): CompletableFuture<HttpResponse> {
-//    val future = CompletableFuture<HttpResponse>()
-//
-//    this.execute(request, object : FutureCallback<HttpResponse> {
-//        override fun completed(result: HttpResponse) {
-//            future.complete(result)
-//        }
-//
-//        override fun cancelled() {
-//            future.cancel(false)
-//        }
-//
-//        override fun failed(ex: Exception) {
-//            future.completeExceptionally(ex)
-//        }
-//    })
-//
-//    return future
-//}
+
+/* step 2
 fun HttpAsyncClient.execute(request: HttpUriRequest): CompletableFutureCallback<HttpResponse> {
     val future: FutureCallback<HttpResponse> = CompletableFutureCallback(CompletableFuture<HttpResponse>())
 
     this.execute(request, future)
 
-    return future
+    return future as CompletableFutureCallback<HttpResponse>
+}
+*/
+
+/*step 3*/
+suspend fun HttpAsyncClient.execute(request: HttpUriRequest): HttpResponse {
+    return suspendCancellableCoroutine { cont: CancellableContinuation<HttpResponse> ->
+        val future = this.execute(request, object : FutureCallback<HttpResponse> {
+            override fun completed(result: HttpResponse) {
+                cont.resume(result)
+            }
+
+            override fun cancelled() {
+                // Nothing
+            }
+
+            override fun failed(ex: Exception) {
+                cont.resumeWithException(ex)
+            }
+        })
+
+        cont.cancelFutureOnCompletion(future)
+        Unit
+    }
 }
