@@ -1,3 +1,8 @@
+id(x).flatMap(f) 等于 f(x) 
+xs.flatMap(id) 等于 
+xs xs.flatMap(f).flatMap(g) 等于 xs.flatMap(x => f(x).flatMap(g))
+
+
 <code class="language-scala"><span></span><span class="n">id</span><span class="o">(</span><span class="n">x</span><span class="o">).</span><span class="n">flatMap</span><span class="o">(</span><span class="n">f</span><span class="o">)</span>         <span class="n">等于</span> <span class="n">f</span><span class="o">(</span><span class="n">x</span><span class="o">)</span>
 <span class="n">xs</span><span class="o">.</span><span class="n">flatMap</span><span class="o">(</span><span class="n">id</span><span class="o">)</span>           <span class="n">等于</span> <span class="n">xs</span>
 <span class="n">xs</span><span class="o">.</span><span class="n">flatMap</span><span class="o">(</span><span class="n">f</span><span class="o">).</span><span class="n">flatMap</span><span class="o">(</span><span class="n">g</span><span class="o">)</span> <span class="n">等于</span> <span class="n">xs</span><span class="o">.</span><span class="n">flatMap</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="n">f</span><span class="o">(</span><span class="n">x</span><span class="o">).</span><span class="n">flatMap</span><span class="o">(</span><span class="n">g</span><span class="o">))</span>
