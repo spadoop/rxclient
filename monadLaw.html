@@ -1,0 +1,7 @@
+<html>
+<code class="language-scala"><span></span><span class="n">id</span><span class="o">(</span><span class="n">x</span><span class="o">).</span><span class="n">flatMap</span><span class="o">(</span><span class="n">f</span><span class="o">)</span>         <span class="n">等于</span> <span class="n">f</span><span class="o">(</span><span class="n">x</span><span class="o">)</span>
+<span class="n">xs</span><span class="o">.</span><span class="n">flatMap</span><span class="o">(</span><span class="n">id</span><span class="o">)</span>           <span class="n">等于</span> <span class="n">xs</span>
+<span class="n">xs</span><span class="o">.</span><span class="n">flatMap</span><span class="o">(</span><span class="n">f</span><span class="o">).</span><span class="n">flatMap</span><span class="o">(</span><span class="n">g</span><span class="o">)</span> <span class="n">等于</span> <span class="n">xs</span><span class="o">.</span><span class="n">flatMap</span><span class="o">(</span><span class="n">x</span> <span class="k">=&gt;</span> <span class="n">f</span><span class="o">(</span><span class="n">x</span><span class="o">).</span><span class="n">flatMap</span><span class="o">(</span><span class="n">g</span><span class="o">))</span>
+</code>
+
+</html>
