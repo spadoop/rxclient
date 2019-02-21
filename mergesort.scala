@@ -42,4 +42,14 @@ object sort extends App{
       merge(mergeSort(left)(f), mergeSort(right)(f))
     }
   }
+  def quickSort(list: ListBuffer [(Int,_)]):List[(Int,_)] = list match {
+    case ListBuffer() => list.toList
+    case _ => {
+      val mid = list.remove(0)
+      val leftRight = list.partition(_._1 < mid._1)
+//      if(  Runtime.getRuntime.freeMemory()/ (1024*1024)<80  )
+//        println("**---- Free Memory:  " + Runtime.getRuntime.freeMemory() / (1024*1024))
+      (quickSort(leftRight._1) :+ mid) ++ quickSort(leftRight._2)
+    }
+  }
 }
